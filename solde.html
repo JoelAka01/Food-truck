@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Truck - Gestion du Solde</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .balance-section {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .balance-amount {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .balance-label {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .action-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .transactions-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .transactions-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .transaction-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .transaction-amount {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .credit {
+            color: #27ae60;
+        }
+
+        .debit {
+            color: #e74c3c;
+        }
+
+        .transaction-date {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .balance-amount {
+                font-size: 3em;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚚 Food Truck</h1>
+            <p>Gestion de votre solde et transactions</p>
+        </div>
+
+        <div class="main-content">
+            <div id="alert-container"></div>
+
+            <!-- Section Solde -->
+            <div class="balance-section">
+                <div class="balance-label">Votre solde actuel</div>
+                <div class="balance-amount" id="balance-display">€0.00</div>
+                <div id="last-update">Dernière mise à jour: --</div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions-grid">
+                <!-- Ajouter du crédit -->
+                <div class="action-card">
+                    <h3>💳 Ajouter du crédit</h3>
+                    <form id="credit-form">
+                        <div class="form-group">
+                            <label>Montant (€)</label>
+                            <input type="number" id="credit-amount" step="0.01" min="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="credit-description" placeholder="Ajout de crédit">
+                        </div>
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                    </form>
+                </div>
+
+                <!-- Effectuer un paiement -->
+                <div class="action-card">
+                    <h3>💰 Effectuer un paiement</h3>
+                    <form id="debit-form">
+                        <div class="form-group">
+                            <label>Montant (€)</label>
+                            <input type="number" id="debit-amount" step="0.01" min="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="debit-description" placeholder="Achat food truck">
+                        </div>
+                        <button type="submit" class="btn btn-danger">Payer</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-transactions">0</div>
+                    <div class="stat-label">Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-credits">€0</div>
+                    <div class="stat-label">Crédits totaux</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-debits">€0</div>
+                    <div class="stat-label">Débits totaux</div>
+                </div>
+            </div>
+
+            <!-- Historique des transactions -->
+            <div class="transactions-section">
+                <h3>📋 Historique des transactions</h3>
+                <div id="transactions-list">
+                    <p style="text-align: center; color: #666;">Aucune transaction pour le moment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class FoodTruckBalance {
+            constructor() {
+                this.balance = parseFloat(localStorage.getItem('balance')) || 0;
+                this.transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+                this.init();
+            }
+
+            init() {
+                this.updateDisplay();
+                this.bindEvents();
+                this.updateStats();
+            }
+
+            bindEvents() {
+                document.getElementById('credit-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addCredit();
+                });
+
+                document.getElementById('debit-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.makePayment();
+                });
+            }
+
+            addCredit() {
+                const amount = parseFloat(document.getElementById('credit-amount').value);
+                const description = document.getElementById('credit-description').value || 'Ajout de crédit';
+
+                if (amount <= 0) {
+                    this.showAlert('Le montant doit être positif', 'error');
+                    return;
+                }
+
+                this.balance += amount;
+                this.addTransaction('credit', amount, description);
+                this.saveData();
+                this.updateDisplay();
+                this.updateStats();
+                
+                document.getElementById('credit-form').reset();
+                this.showAlert(`Crédit de €${amount.toFixed(2)} ajouté avec succès!`, 'success');
+            }
+
+            makePayment() {
+                const amount = parseFloat(document.getElementById('debit-amount').value);
+                const description = document.getElementById('debit-description').value || 'Paiement';
+
+                if (amount <= 0) {
+                    this.showAlert('Le montant doit être positif', 'error');
+                    return;
+                }
+
+                if (this.balance < amount) {
+                    this.showAlert('Solde insuffisant pour effectuer ce paiement', 'error');
+                    return;
+                }
+
+                this.balance -= amount;
+                this.addTransaction('debit', amount, description);
+                this.saveData();
+                this.updateDisplay();
+                this.updateStats();
+                
+                document.getElementById('debit-form').reset();
+                this.showAlert(`Paiement de €${amount.toFixed(2)} effectué avec succès!`, 'success');
+            }
+
+            addTransaction(type, amount, description) {
+                const transaction = {
+                    id: Date.now(),
+                    type: type,
+                    amount: amount,
+                    description: description,
+                    date: new Date(),
+                    balanceAfter: this.balance
+                };
+
+                this.transactions.unshift(transaction);
+                
+                // Garder seulement les 50 dernières transactions
+                if (this.transactions.length > 50) {
+                    this.transactions = this.transactions.slice(0, 50);
+                }
+
+                this.updateTransactionsList();
+            }
+
+            updateDisplay() {
+                document.getElementById('balance-display').textContent = `€${this.balance.toFixed(2)}`;
+                document.getElementById('last-update').textContent = 
+                    `Dernière mise à jour: ${new Date().toLocaleString('fr-FR')}`;
+                this.updateTransactionsList();
+            }
+
+            updateTransactionsList() {
+                const container = document.getElementById('transactions-list');
+                
+                if (this.transactions.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #666;">Aucune transaction pour le moment</p>';
+                    return;
+                }
+
+                const html = this.transactions.slice(0, 10).map(transaction => `
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-type ${transaction.type}">
+                                ${transaction.type === 'credit' ? '⬆️ Crédit' : '⬇️ Débit'}
+                            </div>
+                            <div class="transaction-description">${transaction.description}</div>
+                            <div class="transaction-date">${new Date(transaction.date).toLocaleString('fr-FR')}</div>
+                        </div>
+                        <div class="transaction-amount ${transaction.type}">
+                            ${transaction.type === 'credit' ? '+' : '-'}€${transaction.amount.toFixed(2)}
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = html;
+            }
+
+            updateStats() {
+                const totalCredits = this.transactions
+                    .filter(t => t.type === 'credit')
+                    .reduce((sum, t) => sum + t.amount, 0);
+
+                const totalDebits = this.transactions
+                    .filter(t => t.type === 'debit')
+                    .reduce((sum, t) => sum + t.amount, 0);
+
+                document.getElementById('total-transactions').textContent = this.transactions.length;
+                document.getElementById('total-credits').textContent = `€${totalCredits.toFixed(2)}`;
+                document.getElementById('total-debits').textContent = `€${totalDebits.toFixed(2)}`;
+            }
+
+            showAlert(message, type) {
+                const container = document.getElementById('alert-container');
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.textContent = message;
+                
+                container.innerHTML = '';
+                container.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+
+            saveData() {
+                localStorage.setItem('balance', this.balance.toString());
+                localStorage.setItem('transactions', JSON.stringify(this.transactions));
+            }
+
+            // Méthodes utilitaires
+            exportData() {
+                const data = {
+                    balance: this.balance,
+                    transactions: this.transactions,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'food-truck-balance.json';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            resetData() {
+                if (confirm('Êtes-vous sûr de vouloir réinitialiser toutes les données ?')) {
+                    localStorage.removeItem('balance');
+                    localStorage.removeItem('transactions');
+                    location.reload();
+                }
+            }
+        }
+
+        // Initialiser l'application
+        document.addEventListener('DOMContentLoaded', () => {
+            window.foodTruckBalance = new FoodTruckBalance();
+            
+            // Ajouter des raccourcis clavier
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'e') {
+                    e.preventDefault();
+                    window.foodTruckBalance.exportData();
+                }
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    window.foodTruckBalance.resetData();
+                }
+            });
+        });
+
+        // Fonctions utilitaires globales
+        function addQuickCredit(amount) {
+            document.getElementById('credit-amount').value = amount;
+            document.getElementById('credit-description').value = `Ajout rapide de €${amount}`;
+        }
+
+        // Ajouter des boutons de crédit rapide
+        document.addEventListener('DOMContentLoaded', () => {
+            const creditCard = document.querySelector('.action-card h3').parentElement;
+            const quickButtons = document.createElement('div');
+            quickButtons.innerHTML = `
+                <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="addQuickCredit(10)" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">+10€</button>
+                    <button onclick="addQuickCredit(20)" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">+20€</button>
+                    <button onclick="addQuickCredit(50)" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">+50€</button>
+                </div>
+            `;
+            creditCard.insertBefore(quickButtons, creditCard.querySelector('form'));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Burger Deluxe",
+    "description": "Steak haché, fromage, salade, tomate, sauce spéciale",
+    "price": 12.50,
+    "image": "images/burger.jpg",
+    "category": "Burgers",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Pizza Margherita",
+    "description": "Base tomate, mozzarella, basilic frais",
+    "price": 15.00,
+    "image": "images/pizza.jpg",
+    "category": "Pizzas",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Tacos Supreme",
+    "description": "3 tacos garnis, viande au choix, légumes, sauces",
+    "price": 18.00,
+    "image": "images/tacos.jpg",
+    "category": "Mexicain",
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Salade Caesar",
+    "description": "Salade romaine, poulet grillé, parmesan, croûtons",
+    "price": 11.00,
+    "image": "images/salade.jpg",
+    "category": "Salades",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Poulet Vindaloo",
+    "description": "Poulet mariné aux épices indiennes, sauce curry épicée",
+    "price": 14.50,
+    "image": "images/poulet vindaloo.jpg",
+    "category": "Indien",
+    "available": true
+  },
+  {
+    "id": 6,
+    "name": "Sushis Variés",
+    "description": "Assortiment de 12 pièces: maki, california, sashimi",
+    "price": 16.50,
+    "image": "images/sushis.jpg",
+    "category": "Japonais",
+    "available": true
+  }
+]

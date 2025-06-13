@@ -3,64 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Food Truck - Commande en ligne</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Food Truck - Système de Solde Intégré</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-truck"></i> Food Truck Deluxe
-            </a>
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-light me-2" id="cart-toggle">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge bg-light text-dark" id="cart-count">0</span>
-                </button>
-                <button class="btn btn-outline-light" id="orders-toggle">
-                    <i class="fas fa-list"></i>
-                    <span class="badge bg-light text-dark" id="orders-count">0</span>
+    <div class="container">
+
+        <div class="header">
+            <h1>🚚 Food Truck </h1>
+            <p>Savourez nos spécialités avec votre solde numérique</p>
+        </div>
+
+        
+        <div class="menu-section">
+            <h2 class="menu-title">Notre Menu</h2>
+            
+            <!-- Loading/Error states -->
+            <div id="loading-container" class="loading-spinner">
+                <div class="spinner"></div>
+                <p style="margin-left: 20px;">Chargement du menu...</p>
+            </div>
+            
+            <div id="error-container" style="display: none;">
+                <div class="error-message">
+                    <h3>❌ Erreur de chargement</h3>
+                    <p id="error-message">Impossible de charger le menu</p>
+                    <button class="retry-button" onclick="loadMenu()">Réessayer</button>
+                </div>
+            </div>
+            
+            <!-- Menu Grid - sera rempli dynamiquement -->
+            <div id="menu-grid" class="menu-grid" style="display: none;"></div>
+        </div>
+
+        <!-- Order Section -->
+        <div class="order-section">
+            <h2 class="menu-title">Votre Commande</h2>
+            
+            <div id="cart-items">
+                <p style="text-align: center; color: #666;">Votre panier est vide</p>
+            </div>
+
+            <div class="order-summary">
+                <div class="order-total">Total: €<span id="cart-total">0.00</span></div>
+                <button id="checkout-btn" class="buy-btn" disabled>
+                    Finaliser la commande
                 </button>
             </div>
+
+            <form class="order-form" id="customer-form" style="display: none;">
+                <h3>Informations de livraison</h3>
+                
+                <div class="form-group">
+                    <label for="customer-name">Nom complet *</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-phone">Téléphone *</label>
+                    <input type="tel" id="customer-phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer-address">Adresse de livraison *</label>
+                    <textarea id="customer-address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="delivery-time">Heure de livraison souhaitée</label>
+                    <select id="delivery-time">
+                        <option value="">Dès que possible</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="19:00">19:00</option>
+                        <option value="19:30">19:30</option>
+                        <option value="20:00">20:00</option>
+                        <option value="20:30">20:30</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="special-instructions">Instructions spéciales</label>
+                    <textarea id="special-instructions" rows="2" placeholder="Allergies, préférences..."></textarea>
+                </div>
+
+                <button type="submit" class="balance-submit-btn">
+                    Confirmer et payer - €<span id="final-total">0.00</span>
+                </button>
+            </form>
         </div>
-    </nav>
+    </div>
 
-    <main>
-        <section id="menu-section">
-            <h2>Notre Menu</h2>
-            <button id="load-menu-btn">Charger le menu</button>
-            <div id="menu-container"></div>
-        </section>
-
-        <section id="cart-section">
-            <h2>Votre Panier</h2>
-            <div id="cart-items"></div>
-            <div id="cart-total">Total: 0.00€</div>
-            <button id="checkout-btn" disabled>Procéder à la commande</button>
-        </section>
-
-        <section id="order-summary" class="hidden">
-            <h2>Récapitulatif de votre commande</h2>
-            <div id="summary-items"></div>
-            <div id="summary-total"></div>
-            <button id="confirm-order-btn">Confirmer la commande</button>
-            <button id="edit-order-btn">Modifier la commande</button>
-        </section>
-
-        <section id="order-tracking" class="hidden">
-            <h2>Suivi de votre commande</h2>
-            <div id="order-status"></div>
-            <div id="order-details"></div>
-        </section>
-
-        <!-- Section Gestion des commandes -->
-        <section id="admin-section" class="hidden">
-            <h2>Gestion des commandes (Admin)</h2>
-            <button id="show-admin-btn">Mode Administrateur</button>
-            <div id="orders-list"></div>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+<script src="js/script.js"></script>
+<script src="js/menu-loader.js"></script>
 </body>
 </html>
