@@ -1,5 +1,0 @@
-[
-  { "id": 1, "name": "Pizza", "price": 10, "image": "pizza.jpg", "description": "Pizza margherita délicieuse" },
-  { "id": 2, "name": "Tacos", "price": 8, "image": "tacos.jpg", "description": "Tacos mexicain épicé" },
-  { "id": 3, "name": "Salade", "price": 7.5, "image": "salade.jpg", "description": "Salade fraîche et croquante" }
-]

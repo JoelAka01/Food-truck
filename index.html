@@ -1,26 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food truck TP</title>
+    <title>Mini Food Truck - Commande en ligne</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Food Truck</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-truck"></i> Food Truck Deluxe
+            </a>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-light me-2" id="cart-toggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge bg-light text-dark" id="cart-count">0</span>
+                </button>
+                <button class="btn btn-outline-light" id="orders-toggle">
+                    <i class="fas fa-list"></i>
+                    <span class="badge bg-light text-dark" id="orders-count">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
     <main>
+        <section id="menu-section">
+            <h2>Notre Menu</h2>
+            <button id="load-menu-btn">Charger le menu</button>
+            <div id="menu-container"></div>
+        </section>
 
+        <section id="cart-section">
+            <h2>Votre Panier</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total">Total: 0.00€</div>
+            <button id="checkout-btn" disabled>Procéder à la commande</button>
+        </section>
 
+        <section id="order-summary" class="hidden">
+            <h2>Récapitulatif de votre commande</h2>
+            <div id="summary-items"></div>
+            <div id="summary-total"></div>
+            <button id="confirm-order-btn">Confirmer la commande</button>
+            <button id="edit-order-btn">Modifier la commande</button>
+        </section>
+
+        <section id="order-tracking" class="hidden">
+            <h2>Suivi de votre commande</h2>
+            <div id="order-status"></div>
+            <div id="order-details"></div>
+        </section>
+
+        <!-- Section Gestion des commandes -->
+        <section id="admin-section" class="hidden">
+            <h2>Gestion des commandes (Admin)</h2>
+            <button id="show-admin-btn">Mode Administrateur</button>
+            <div id="orders-list"></div>
+        </section>
     </main>
-<script src="/script.js" ></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
