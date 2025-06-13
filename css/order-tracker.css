@@ -1,0 +1,265 @@
+/* Styles pour le suivi des commandes */
+.order-card {
+    background: var(--card-bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    border-left: 5px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--card-shadow);
+}
+
+.order-card.status-preparing {
+    border-left-color: #f39c12;
+}
+
+.order-card.status-delivery {
+    border-left-color: #3498db;
+}
+
+.order-card.status-delivered {
+    border-left-color: var(--secondary-color);
+}
+
+/* Styles pour la section de suivi de progression */
+.orders-progress-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    transition: all 0.3s ease;
+    border-left: 5px solid var(--primary-color);
+}
+
+.orders-progress-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.progress-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33%;
+    position: relative;
+    z-index: 2;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.progress-step.completed {
+    opacity: 1;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+.progress-step.active .step-circle {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.progress-step.completed .step-circle {
+    background-color: var(--secondary-color);
+}
+
+.step-name {
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.step-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.step-status {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+}
+
+.progress-step.active .step-status {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.progress-step.completed .step-status {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.progress-line {
+    height: 4px;
+    background-color: #e0e0e0;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.5s ease;
+}
+
+.progress-line.active {
+    background-color: var(--primary-color);
+}
+
+.progress-line.completed {
+    background-color: var(--secondary-color);
+}
+
+.order-progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-bar-inner {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+.estimated-time {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+#time-remaining {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Animation de pulsation pour l'étape active */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.progress-step.active .step-circle {
+    animation: pulse 2s infinite;
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .order-header {
+        flex-direction: column;
+    }
+    
+    .order-total {
+        margin-top: 10px;
+    }
+    
+    .order-status {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .status-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .status-label {
+        font-size: 0.7em;
+    }
+    
+    .progress-tracker {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .progress-step {
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .step-circle {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    
+    .progress-line {
+        width: 4px;
+        height: 30px;
+        margin-left: 18px;
+    }
+}
+
+/* Styles pour le statut actuel dans la liste des commandes */
+.status-current {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.status-current .status-label {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.status-bar-inner.status-preparing + .status-current .status-label,
+.order-card.status-preparing .status-label {
+    color: #f39c12;
+    border: 1px solid #f39c12;
+}
+
+.status-bar-inner.status-delivery + .status-current .status-label,
+.order-card.status-delivery .status-label {
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.status-bar-inner.status-delivered + .status-current .status-label,
+.order-card.status-delivered .status-label {
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+}

@@ -380,7 +380,7 @@ button:disabled {
 
 .menu-item {
     background: var(--card-bg-color);
-    border-radius: 15px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px var(--card-shadow);
     transition: all 0.3s ease;

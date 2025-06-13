@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Truck - Système de Solde Intégré</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/order-tracker.css">
 </head>
 <body>
     <div class="container">
@@ -49,6 +50,39 @@
                 <button id="checkout-btn" class="buy-btn" disabled>
                     Finaliser la commande
                 </button>
+            </div>
+            
+            <!-- Suivi de Progression des Commandes -->
+            <div id="orders-progress-tracking" class="orders-progress-section" style="display: none;">
+                <h3>Suivi de votre commande</h3>
+                <div class="progress-tracker">
+                    <div class="progress-step" data-step="preparation">
+                        <div class="step-circle">1</div>
+                        <div class="step-name">Préparation</div>
+                        <div class="step-icon">👨‍🍳</div>
+                        <div class="step-status" id="status-preparation">En attente</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="delivery">
+                        <div class="step-circle">2</div>
+                        <div class="step-name">En livraison</div>
+                        <div class="step-icon">🚚</div>
+                        <div class="step-status" id="status-delivery">En attente</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="delivered">
+                        <div class="step-circle">3</div>
+                        <div class="step-name">Livré !</div>
+                        <div class="step-icon">✅</div>
+                        <div class="step-status" id="status-delivered">En attente</div>
+                    </div>
+                </div>
+                <div id="order-progress-bar" class="order-progress-bar">
+                    <div id="progress-bar-inner" class="progress-bar-inner"></div>
+                </div>
+                <div id="estimated-time" class="estimated-time">
+                    Livraison estimée dans: <span id="time-remaining">--:--</span>
+                </div>
             </div>
 
             <form class="order-form" id="customer-form" style="display: none;">
@@ -98,5 +132,6 @@
 
 <script src="js/script.js"></script>
 <script src="js/menu-loader.js"></script>
+<script src="js/order-tracker.js"></script>
 </body>
 </html>

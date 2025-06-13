@@ -430,7 +430,7 @@
             document.getElementById('customer-form').scrollIntoView({ behavior: 'smooth' });
         }
 
-        processOrder() {
+        async processOrder() {
             const total = this.getTotal();
             const customerName = document.getElementById('customer-name').value;
             const customerPhone = document.getElementById('customer-phone').value;
@@ -445,22 +445,58 @@
             const orderDescription = `Commande Food Truck\n${orderSummary}\nClient: ${customerName}`;
 
             if (balanceManager.processPurchase(total, orderDescription)) {
-                this.showOrderConfirmation({
+                // Créer l'objet de commande
+                const orderData = {
                     orderNumber: Date.now(),
-                    customerName,
-                    customerPhone,
-                    customerAddress,
+                    customer: customerName,
+                    phone: customerPhone,
+                    address: customerAddress,
                     deliveryTime,
-                    specialInstructions,
+                    instructions: specialInstructions,
                     items: [...this.items],
                     total
-                });
+                };
 
-                // Réinitialiser le panier
+                // Réinitialiser le panier et masquer le formulaire avant le processus asynchrone
                 this.items = [];
                 this.updateDisplay();
                 document.getElementById('customer-form').style.display = 'none';
                 document.getElementById('customer-form').reset();
+
+                // Afficher la confirmation de commande
+                this.showOrderConfirmation(orderData);
+                
+                // Faire défiler vers l'indicateur de progression
+                const ordersProgressTracking = document.getElementById('orders-progress-tracking');
+                if (ordersProgressTracking) {
+                    setTimeout(() => {
+                        ordersProgressTracking.style.display = 'block';
+                        ordersProgressTracking.scrollIntoView({ behavior: 'smooth' });
+                    }, 1000);
+                }
+
+                // Ajouter la commande au tracker et lancer la simulation
+                if (window.orderTracker) {
+                    const orderId = await window.orderTracker.addOrder({
+                        items: orderData.items,
+                        total: orderData.total,
+                        customer: orderData.customer,
+                        address: orderData.address,
+                        instructions: orderData.instructions,
+                        phone: orderData.phone,
+                        deliveryTime: orderData.deliveryTime
+                    });
+
+                    orderData.orderId = orderId;
+                    
+                    // Faire défiler vers la section des commandes une fois la livraison commencée
+                    setTimeout(() => {
+                        const ordersSection = document.getElementById('orders-section');
+                        if (ordersSection) {
+                            ordersSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 7000); // Un peu après le passage en mode "En livraison"
+                }
             }
         }
 
